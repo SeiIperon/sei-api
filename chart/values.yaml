@@ -1,0 +1,12 @@
+replicaCount: 1
+
+environment: dev
+serverPort: 9000
+
+imageName:
+imageTag: latest
+
+javaOpts: "-Xmx4000m"
+
+global:
+   hostName: 
