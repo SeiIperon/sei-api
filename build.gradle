@@ -16,6 +16,8 @@ repositories {
 	mavenCentral()
 }
 
+compileJava.options.encoding = 'UTF-8'
+
 docker {
     springBootApplication {
         baseImage = 'openjdk:11'
