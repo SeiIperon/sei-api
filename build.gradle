@@ -14,7 +14,7 @@ mainClassName = 'br.gov.ro.pge.sei.api.SeiApiApplication'
 repositories {
 	mavenCentral()
 }
-
+compileJava.options.encoding = 'UTF-8'
 sourceSets {
 	main {
 		java {
