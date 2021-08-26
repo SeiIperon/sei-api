@@ -109,6 +109,7 @@ gitlab-release:
         --set imageTag=$IMAGE_TAG
         --set environment=$ENVIRONMENT
         --set global.hostName=$HOSTNAME
+        --set javaOpts=$JAVA_OPTS
 
 deploy_homolog:
   <<: *deploy_definition
