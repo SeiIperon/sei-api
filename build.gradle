@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
 	id 'application'
+	id 'com.bmuschko.docker-spring-boot-application' version "6.6.1"
 }
 
 group = 'br.gov.ro.pge'
@@ -14,7 +15,17 @@ mainClassName = 'br.gov.ro.pge.sei.api.SeiApiApplication'
 repositories {
 	mavenCentral()
 }
+
 compileJava.options.encoding = 'UTF-8'
+
+docker {
+    springBootApplication {
+        baseImage = 'openjdk:11'
+        maintainer = 'PGE-RO "suporte@pge.ro.gov.br"'
+        ports = [8080]
+    }
+}
+
 sourceSets {
 	main {
 		java {

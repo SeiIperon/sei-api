@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Release.Name }}-configmap-{{ .Release.Revision }}"
+data:
+  "spring.profiles.active": {{.Values.environment | quote}}
+  "server.port": {{.Values.serverPort | quote}}
+  "JAVA_OPTS": {{.Values.javaOpts | quote}}
