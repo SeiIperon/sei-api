@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:sei="Sei">
+	<soapenv:Header />
+	<soapenv:Body>
+		<sei:listarSeries soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+			<SiglaSistema xsi:type="xsd:string">PARAM_1</SiglaSistema>
+			<IdentificacaoServico xsi:type="xsd:string">PARAM_2</IdentificacaoServico>
+			<IdUnidade xsi:type="xsd:string">PARAM_3</IdUnidade>
+			<IdTipoProcedimento xsi:type="xsd:string">PARAM_4</IdTipoProcedimento>
+		</sei:listarSeries>
+	</soapenv:Body>
+</soapenv:Envelope>

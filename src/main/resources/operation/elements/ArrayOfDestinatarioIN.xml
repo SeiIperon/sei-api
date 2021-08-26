@@ -1,0 +1,4 @@
+<Destinatario xsi:type="sei:Destinatario">
+	<Sigla xsi:type="xsd:string">PARAM_1</Sigla>
+	<Nome xsi:type="xsd:string">PARAM_2</Nome>
+</Destinatario>

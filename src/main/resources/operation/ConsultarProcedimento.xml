@@ -1,0 +1,23 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:sei="Sei">
+	<soapenv:Header />
+	<soapenv:Body>
+		<sei:consultarProcedimento
+			soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+			<SiglaSistema xsi:type="xsd:string">PARAM_1</SiglaSistema>
+			<IdentificacaoServico xsi:type="xsd:string">PARAM_2</IdentificacaoServico>
+			<IdUnidade xsi:type="xsd:string">PARAM_3</IdUnidade>
+			<ProtocoloProcedimento xsi:type="xsd:string">PARAM_4</ProtocoloProcedimento>
+			<SinRetornarAssuntos xsi:type="xsd:string">PARAM_5</SinRetornarAssuntos>
+			<SinRetornarInteressados xsi:type="xsd:string">PARAM_6</SinRetornarInteressados>
+			<SinRetornarObservacoes xsi:type="xsd:string">PARAM_7</SinRetornarObservacoes>
+			<SinRetornarAndamentoGeracao xsi:type="xsd:string">PARAM_8</SinRetornarAndamentoGeracao>
+			<SinRetornarAndamentoConclusao xsi:type="xsd:string">PARAM_9</SinRetornarAndamentoConclusao>
+			<SinRetornarUltimoAndamento xsi:type="xsd:string">PARAM_10</SinRetornarUltimoAndamento>
+			<SinRetornarUnidadesProcedimentoAberto xsi:type="xsd:string">PARAM_11</SinRetornarUnidadesProcedimentoAberto>
+			<SinRetornarProcedimentosRelacionados xsi:type="xsd:string">PARAM_12</SinRetornarProcedimentosRelacionados>
+			<SinRetornarProcedimentosAnexados xsi:type="xsd:string">PARAM_13</SinRetornarProcedimentosAnexados>
+		</sei:consultarProcedimento>
+	</soapenv:Body>
+</soapenv:Envelope>

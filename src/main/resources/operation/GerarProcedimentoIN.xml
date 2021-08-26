@@ -1,0 +1,35 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:sei="Sei" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+	<soapenv:Header />
+	<soapenv:Body>
+		<sei:gerarProcedimento soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+			<SiglaSistema xsi:type="xsd:string">PARAM_1</SiglaSistema>
+			<IdentificacaoServico xsi:type="xsd:string">PARAM_2</IdentificacaoServico>
+			<IdUnidade xsi:type="xsd:string">PARAM_3</IdUnidade>
+			<Procedimento xsi:type="sei:Procedimento">
+				<IdTipoProcedimento xsi:type="xsd:string">PARAM_4</IdTipoProcedimento>
+				<NumeroProtocolo xsi:type="xsd:string">PARAM_5</NumeroProtocolo>
+				<DataAutuacao xsi:type="xsd:string">PARAM_6</DataAutuacao>
+				<Especificacao xsi:type="xsd:string">PARAM_7</Especificacao>
+
+				<Assuntos xsi:type="sei:ArrayOfAssunto" soapenc:arrayType="sei:Assunto[PARAM_LENGTH_1]">PARAM_8</Assuntos>
+				<Interessados xsi:type="sei:ArrayOfInteressado" soapenc:arrayType="sei:Interessado[PARAM_LENGTH_2]">PARAM_9</Interessados>
+
+				<Observacao xsi:type="xsd:string">PARAM_10</Observacao>
+				<NivelAcesso xsi:type="xsd:string">PARAM_11</NivelAcesso>
+				<IdHipoteseLegal xsi:type="xsd:string">PARAM_12</IdHipoteseLegal>
+			</Procedimento>
+			<Documentos xsi:type="sei:ArrayOfDocumento" soapenc:arrayType="sei:Documento[]"/>
+			<ProcedimentosRelacionados xsi:type="sei:ArrayOfProcedimentoRelacionado" soapenc:arrayType="xsd:string[]"/>
+			<UnidadesEnvio xsi:type="sei:ArrayOfIdUnidade" soapenc:arrayType="xsd:string[]"/>
+			<SinManterAbertoUnidade xsi:type="xsd:string">PARAM_13</SinManterAbertoUnidade>
+			<SinEnviarEmailNotificacao xsi:type="xsd:string">PARAM_14</SinEnviarEmailNotificacao>
+			<DataRetornoProgramado xsi:type="xsd:string">PARAM_15</DataRetornoProgramado>
+			<DiasRetornoProgramado xsi:type="xsd:string">PARAM_16</DiasRetornoProgramado>
+			<SinDiasUteisRetornoProgramado xsi:type="xsd:string">PARAM_17</SinDiasUteisRetornoProgramado>
+			<IdMarcador xsi:type="xsd:string">PARAM_18</IdMarcador>
+			<TextoMarcador xsi:type="xsd:string">PARAM_19</TextoMarcador>
+		</sei:gerarProcedimento>
+	</soapenv:Body>
+</soapenv:Envelope>
