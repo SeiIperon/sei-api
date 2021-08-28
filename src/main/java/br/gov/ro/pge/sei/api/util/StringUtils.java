@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * @author janon.sousa
  *
  */
-public final class StringUtils {
+public class StringUtils {
 	
 	public static String toString(Object value) {
 		String string = "";

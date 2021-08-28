@@ -1,4 +1,4 @@
-package br.gov.ro.pge.sei.api.ws.soap;
+package br.gov.ro.pge.sei.api.util;
 
 import javax.activation.DataSource;
 import javax.activation.MimetypesFileTypeMap;
@@ -20,23 +20,22 @@ public class InputStreamDataSource implements DataSource {
 	}
 
 	@Override
-	public String getContentType() {
-		return this.contentType;
+	public InputStream getInputStream() throws IOException {
+		return this.is;
 	}
 
 	@Override
-	public InputStream getInputStream() throws IOException {
-		return is;
+	public OutputStream getOutputStream() throws IOException {
+		return null;
+	}
+
+	@Override
+	public String getContentType() {
+		return this.contentType;
 	}
 
 	@Override
 	public String getName() {
 		return this.name;
 	}
-
-	@Override
-	public OutputStream getOutputStream() throws IOException {
-		throw new IOException("Can't do this");
-	}
-
 }

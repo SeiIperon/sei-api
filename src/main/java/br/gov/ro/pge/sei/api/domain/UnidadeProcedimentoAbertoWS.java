@@ -3,25 +3,16 @@
  */
 package br.gov.ro.pge.sei.api.domain;
 
-/**
- * @author janon.sousa
- *
- */
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UnidadeProcedimentoAbertoWS {
 	
 	private UnidadeWS unidade;
-
-	/**
-	 * @return the unidade
-	 */
-	public UnidadeWS getUnidade() {
-		return unidade;
-	}
-
-	/**
-	 * @param unidade the unidade to set
-	 */
-	public void setUnidade(UnidadeWS unidade) {
-		this.unidade = unidade;
-	}
 }

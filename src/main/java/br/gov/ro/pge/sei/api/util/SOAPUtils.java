@@ -1,10 +1,8 @@
 package br.gov.ro.pge.sei.api.util;
 
+import br.gov.ro.pge.sei.api.config.Message;
 import br.gov.ro.pge.sei.api.domain.fault.SeiFaultException;
 import br.gov.ro.pge.sei.api.domain.wrapper.Envelope;
-import br.gov.ro.pge.sei.api.message.Message;
-import br.gov.ro.pge.sei.api.ws.soap.Attachment;
-import br.gov.ro.pge.sei.api.ws.soap.InputStreamDataSource;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +16,7 @@ import javax.xml.soap.*;
 import java.io.ByteArrayInputStream;
 
 @Component
-public final class SOAPUtils {
+public class SOAPUtils {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOAPUtils.class);
 
@@ -40,6 +38,9 @@ public final class SOAPUtils {
 			throw new SeiFaultException(500, "O corpo da mensagem é obrigatório.", Message.MNE00001);
 		}
 		try {
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("XML Soap: {}", messageBody);
+			}
 			SOAPConnectionFactory factory = SOAPConnectionFactory.newInstance();
 	        SOAPConnection connection = factory.createConnection();
 	        
@@ -48,26 +49,22 @@ public final class SOAPUtils {
 	        headers.addHeader("Content-Type", "text/xml; charset=UTF-8");
 	        
 			MessageFactory messageFactory = MessageFactory.newInstance();
-			SOAPMessage message = messageFactory.createMessage(headers,
-					(new ByteArrayInputStream(messageBody.getBytes("UTF-8"))));
+			SOAPMessage message = messageFactory.createMessage(headers, (new ByteArrayInputStream(messageBody.getBytes("UTF-8"))));
 	        
 			if (!ObjectUtils.isEmpty(attachment) && attachment.isMTOM()) {
 				AttachmentPart attachmentPart = message.createAttachmentPart();
 				attachmentPart.setContentId("<" + attachment.getContentId() + ">");
-				attachmentPart.setDataHandler(new DataHandler(
-						new InputStreamDataSource(attachment.getFilename(),
-								attachment.getData())));
+				attachmentPart.setDataHandler(new DataHandler(new InputStreamDataSource(attachment.getFilename(), attachment.getData())));
 				message.addAttachmentPart(attachmentPart);
 			}
 	        SOAPMessage response = connection.call(message, SOAPUtils.ENDPOINT);
 	        Document document = response.getSOAPBody().getOwnerDocument();
 	        return containsError(XMLUtils.getDocumentAsString(document));
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
 			if (e instanceof SeiFaultException) {
 				throw (SeiFaultException) e;
 			}
-			throw new SeiFaultException(400, e.getMessage(), Message.MNE00001);
+			throw new SeiFaultException(400, e.getMessage(), Message.MNE00001, e);
 		}
 	}
 	

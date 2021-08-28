@@ -3,40 +3,18 @@
  */
 package br.gov.ro.pge.sei.api.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
-/**
- * @author janon.sousa
- * 
- */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ArrayOfObservacaoWS {
 
 	private List<ObservacaoWS> observacao;
-
-	public ArrayOfObservacaoWS() {
-		// --
-	}
-
-	/**
-	 * @param observacao
-	 */
-	public ArrayOfObservacaoWS(List<ObservacaoWS> observacao) {
-		super();
-		this.observacao = observacao;
-	}
-
-	/**
-	 * @return the observacao
-	 */
-	public List<ObservacaoWS> getObservacao() {
-		return observacao;
-	}
-
-	/**
-	 * @param observacao
-	 *            the observacao to set
-	 */
-	public void setObservacao(List<ObservacaoWS> observacao) {
-		this.observacao = observacao;
-	}
 }

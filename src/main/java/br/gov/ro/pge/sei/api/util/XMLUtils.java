@@ -28,7 +28,7 @@ import java.io.StringWriter;
  * @author janon.sousa
  * 
  */
-public final class XMLUtils {
+public class XMLUtils {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(XMLUtils.class);
 	

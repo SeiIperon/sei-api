@@ -29,10 +29,10 @@ public final class XMLStream {
 		xstream.aliasField("item", Item.class, "item");
 		xstream.aliasField("key", Item.class, "key");
 		xstream.aliasField("value", Item.class, "value");
-		
-		Envelope envelope = (Envelope) xstream.fromXML(xml);
-		return envelope;
-	}	
+
+		Object obj = xstream.fromXML(xml);
+		return (Envelope) obj;
+	}
 	
 	public Envelope getGerarProcedimento(String xml) {
 		XStream xstream = new XStream(new DomDriver());

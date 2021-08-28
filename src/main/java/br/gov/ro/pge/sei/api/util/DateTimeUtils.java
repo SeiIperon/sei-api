@@ -21,25 +21,6 @@ public final class DateTimeUtils {
         return newDateTime().toDate();
     }
 
-    public static Date plusDays(Date date, int days) {
-        DateTime dateTime = null;
-        if (ObjectUtils.isEmpty(date)) {
-            dateTime = newDateTime();
-        } else {
-            dateTime = new DateTime(date);
-        }
-        dateTime.plusDays(days);
-        return dateTime.toDate();
-    }
-
-    public static int getCurrentYear(Date date) {
-        if (ObjectUtils.isNotEmpty(date)) {
-            DateTime dateTime = new DateTime(date);
-            return dateTime.getYear();
-        }
-        return DateTime.now().withZone(DATE_TIME_ZONE).getYear();
-    }
-
     public static String format(Date date, final String pattern) {
         if (ObjectUtils.isEmpty(date)) {
             date = newDate();
