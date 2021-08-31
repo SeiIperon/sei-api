@@ -3,19 +3,15 @@
  */
 package br.gov.ro.pge.sei.api.domain.wrapper;
 
-/**
- * @author Memora
- * 
- */
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ConcluirProcessoResponse {
-
 	private String parametros;
-
-	public String getParametros() {
-		return parametros;
-	}
-
-	public void setParametros(String parametros) {
-		this.parametros = parametros;
-	}
 }

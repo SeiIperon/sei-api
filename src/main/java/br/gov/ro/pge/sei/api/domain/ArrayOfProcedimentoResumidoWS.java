@@ -3,32 +3,18 @@
  */
 package br.gov.ro.pge.sei.api.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
-/**
- * @author janon.sousa
- * 
- */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ArrayOfProcedimentoResumidoWS {
 
 	private List<ProcedimentoResumidoWS> item;
-
-	public ArrayOfProcedimentoResumidoWS() {
-		// --
-	}
-
-	/**
-	 * @return the item
-	 */
-	public List<ProcedimentoResumidoWS> getItem() {
-		return item;
-	}
-
-	/**
-	 * @param item
-	 *            the item to set
-	 */
-	public void setItem(List<ProcedimentoResumidoWS> item) {
-		this.item = item;
-	}
 }

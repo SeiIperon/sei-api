@@ -1,43 +1,19 @@
 package br.gov.ro.pge.sei.api.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "arrayOfAssuntoWS", propOrder = {
-    "assunto"
-})
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ArrayOfAssuntoWS {
 
-	@XmlElement(required = true)
+	@NotNull
 	private List<AssuntoWS> assunto;
-
-	public ArrayOfAssuntoWS() {
-		
-	}
-
-	/**
-	 * @param assunto
-	 */
-	public ArrayOfAssuntoWS(List<AssuntoWS> assunto) {
-		this.assunto = assunto;
-	}
-
-	/**
-	 * @return the assunto
-	 */
-	public List<AssuntoWS> getAssunto() {
-		return assunto;
-	}
-
-	/**
-	 * @param assunto
-	 *            the assunto to set
-	 */
-	public void setAssunto(List<AssuntoWS> assunto) {
-		this.assunto = assunto;
-	}
 }

@@ -1,9 +1,7 @@
 /**
  * 
  */
-package br.gov.ro.pge.sei.api.message;
-
-import br.gov.ro.pge.sei.api.config.MessageBundle;
+package br.gov.ro.pge.sei.api.config;
 
 import java.text.MessageFormat;
 

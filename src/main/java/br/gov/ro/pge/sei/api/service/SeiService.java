@@ -1,13 +1,12 @@
 package br.gov.ro.pge.sei.api.service;
 
+import br.gov.ro.pge.sei.api.config.Message;
 import br.gov.ro.pge.sei.api.domain.*;
 import br.gov.ro.pge.sei.api.domain.fault.SeiFaultException;
 import br.gov.ro.pge.sei.api.domain.parameter.*;
 import br.gov.ro.pge.sei.api.domain.response.*;
 import br.gov.ro.pge.sei.api.domain.wrapper.Envelope;
-import br.gov.ro.pge.sei.api.message.Message;
 import br.gov.ro.pge.sei.api.util.*;
-import br.gov.ro.pge.sei.api.ws.soap.Attachment;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
@@ -36,7 +35,6 @@ public class SeiService {
 
 	public RespostaGerarProcedimentoWS gerarProcedimento(ParametrosGerarProcedimentoWS param)
 			throws SeiFaultException {
-		
 		if (ObjectUtils.isEmpty(param))
 			throw new SeiFaultException(400, Message.MNE00002);
 		if (ObjectUtils.isEmpty(param.getSiglaSistema()))
@@ -595,7 +593,7 @@ public class SeiService {
 		// --
 		try {
 			String messageBody = XMLUtils.readXMLFile(this.realPath + File.separator + "ConsultarProcedimento.xml");
-			
+
 			messageBody = StringUtils.replace(messageBody, "PARAM_1", param.getSiglaSistema());
 			messageBody = StringUtils.replace(messageBody, "PARAM_2", param.getIdentificacaoServico());
 			messageBody = StringUtils.replace(messageBody, "PARAM_3", StringUtils.toString(param.getIdUnidade()));			

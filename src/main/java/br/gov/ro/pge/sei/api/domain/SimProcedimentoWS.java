@@ -3,32 +3,18 @@
  */
 package br.gov.ro.pge.sei.api.domain;
 
-/**
- * @author janon.sousa
- * 
- */
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum SimProcedimentoWS {
 
 	SIM("S"), NAO("N");
 
-	private String codSinalizador;
+	@Getter @Setter private String codSinalizador;
 
-	private SimProcedimentoWS(String codSinalizador) {
-		this.codSinalizador = codSinalizador;
-	}
-
-	/**
-	 * @return the codSinalizador
-	 */
-	public String getCodSinalizador() {
-		return codSinalizador;
-	}
-
-	/**
-	 * @param codSinalizador
-	 *            the codSinalizador to set
-	 */
-	public void setCodSinalizador(String codSinalizador) {
+	SimProcedimentoWS(String codSinalizador) {
 		this.codSinalizador = codSinalizador;
 	}
 }

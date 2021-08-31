@@ -4,144 +4,60 @@
 package br.gov.ro.pge.sei.api.domain.parameter;
 
 import br.gov.ro.pge.sei.api.domain.*;
+import lombok.*;
 import org.apache.commons.lang3.ObjectUtils;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Memora
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "parametrosEnviarProcessoWS", propOrder = {
-    "siglaSistema",
-    "identificacaoServico",
-    "idUnidade",
-    "protocoloProcedimento",
-    "unidadesDestino",
-    "sinManterAbertoUnidade",
-    "sinRemoverAnotacao",
-    "sinEnviarEmailNotificacao",
-    "dataRetornoProgramado",
-    "diasRetornoProgramado",
-    "sinDiasUteisRetornoProgramado",
-    "sinReabrir"
-})
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ParametrosEnviarProcessoWS {
 
-	@XmlElement(required = true)
+	@NotNull
+	@Getter @Setter
 	private String siglaSistema;
 
-	@XmlElement(required = true)
+	@NotNull
+	@Getter @Setter
 	private String identificacaoServico;
 
-	@XmlElement(required = true)
+	@NotNull
+	@Getter @Setter
 	private Long idUnidade;
 
-	@XmlElement(required = true)
+	@NotNull
+	@Getter @Setter
 	private String protocoloProcedimento;
 
-	@XmlElement(required = true)
+	@NotNull
+	@Getter @Setter
 	private ArrayOfIdUnidadeWS unidadesDestino;
 
-	@XmlElement(required = false)
+	@Setter
 	private SinManterAbertoUnidadeWS sinManterAbertoUnidade;
 
-	@XmlElement(required = false)
+	@Setter
 	private SinRemoverAnotacaoWS sinRemoverAnotacao;
 
-	@XmlElement(required = false)
+	@Setter
 	private SinEnviarEmailNotificacaoWS sinEnviarEmailNotificacao;
 
-	@XmlElement(required = false)
+	@Getter @Setter
 	private String dataRetornoProgramado;
 
-	@XmlElement(required = false)
+	@Getter @Setter
 	private Integer diasRetornoProgramado;
 
-	@XmlElement(required = false)
+	@Setter
 	private SinDiasUteisRetornoProgramadoWS sinDiasUteisRetornoProgramado;
 
-	@XmlElement(required = false)
+	@Setter
 	private SinReabrirWS sinReabrir;
-
-	/**
-	 * @return the siglaSistema
-	 */
-	public String getSiglaSistema() {
-		return siglaSistema;
-	}
-
-	/**
-	 * @param siglaSistema
-	 *            the siglaSistema to set
-	 */
-	public void setSiglaSistema(String siglaSistema) {
-		this.siglaSistema = siglaSistema;
-	}
-
-	/**
-	 * @return the identificacaoServico
-	 */
-	public String getIdentificacaoServico() {
-		return identificacaoServico;
-	}
-
-	/**
-	 * @param identificacaoServico
-	 *            the identificacaoServico to set
-	 */
-	public void setIdentificacaoServico(String identificacaoServico) {
-		this.identificacaoServico = identificacaoServico;
-	}
-
-	/**
-	 * @return the idUnidade
-	 */
-	public Long getIdUnidade() {
-		return idUnidade;
-	}
-
-	/**
-	 * @param idUnidade
-	 *            the idUnidade to set
-	 */
-	public void setIdUnidade(Long idUnidade) {
-		this.idUnidade = idUnidade;
-	}
-
-	/**
-	 * @return the protocoloProcedimento
-	 */
-	public String getProtocoloProcedimento() {
-		return protocoloProcedimento;
-	}
-
-	/**
-	 * @param protocoloProcedimento
-	 *            the protocoloProcedimento to set
-	 */
-	public void setProtocoloProcedimento(String protocoloProcedimento) {
-		this.protocoloProcedimento = protocoloProcedimento;
-	}
-
-	/**
-	 * @return the unidadesDestino
-	 */
-	public ArrayOfIdUnidadeWS getUnidadesDestino() {
-		return unidadesDestino;
-	}
-
-	/**
-	 * @param unidadesDestino
-	 *            the unidadesDestino to set
-	 */
-	public void setUnidadesDestino(ArrayOfIdUnidadeWS unidadesDestino) {
-		this.unidadesDestino = unidadesDestino;
-	}
 
 	/**
 	 * @return the sinManterAbertoUnidade
@@ -151,15 +67,6 @@ public class ParametrosEnviarProcessoWS {
 			this.sinManterAbertoUnidade = SinManterAbertoUnidadeWS.NAO;
 		}
 		return sinManterAbertoUnidade;
-	}
-
-	/**
-	 * @param sinManterAbertoUnidade
-	 *            the sinManterAbertoUnidade to set
-	 */
-	public void setSinManterAbertoUnidade(
-			SinManterAbertoUnidadeWS sinManterAbertoUnidade) {
-		this.sinManterAbertoUnidade = sinManterAbertoUnidade;
 	}
 
 	/**
@@ -173,14 +80,6 @@ public class ParametrosEnviarProcessoWS {
 	}
 
 	/**
-	 * @param sinRemoverAnotacao
-	 *            the sinRemoverAnotacao to set
-	 */
-	public void setSinRemoverAnotacao(SinRemoverAnotacaoWS sinRemoverAnotacao) {
-		this.sinRemoverAnotacao = sinRemoverAnotacao;
-	}
-
-	/**
 	 * @return the sinEnviarEmailNotificacao
 	 */
 	public SinEnviarEmailNotificacaoWS getSinEnviarEmailNotificacao() {
@@ -188,45 +87,6 @@ public class ParametrosEnviarProcessoWS {
 			this.sinEnviarEmailNotificacao = SinEnviarEmailNotificacaoWS.NAO;
 		}
 		return sinEnviarEmailNotificacao;
-	}
-
-	/**
-	 * @param sinEnviarEmailNotificacao
-	 *            the sinEnviarEmailNotificacao to set
-	 */
-	public void setSinEnviarEmailNotificacao(
-			SinEnviarEmailNotificacaoWS sinEnviarEmailNotificacao) {
-		this.sinEnviarEmailNotificacao = sinEnviarEmailNotificacao;
-	}
-
-	/**
-	 * @return the dataRetornoProgramado
-	 */
-	public String getDataRetornoProgramado() {
-		return dataRetornoProgramado;
-	}
-
-	/**
-	 * @param dataRetornoProgramado
-	 *            the dataRetornoProgramado to set
-	 */
-	public void setDataRetornoProgramado(String dataRetornoProgramado) {
-		this.dataRetornoProgramado = dataRetornoProgramado;
-	}
-
-	/**
-	 * @return the diasRetornoProgramado
-	 */
-	public Integer getDiasRetornoProgramado() {
-		return diasRetornoProgramado;
-	}
-
-	/**
-	 * @param diasRetornoProgramado
-	 *            the diasRetornoProgramado to set
-	 */
-	public void setDiasRetornoProgramado(Integer diasRetornoProgramado) {
-		this.diasRetornoProgramado = diasRetornoProgramado;
 	}
 
 	/**
@@ -240,15 +100,6 @@ public class ParametrosEnviarProcessoWS {
 	}
 
 	/**
-	 * @param sinDiasUteisRetornoProgramado
-	 *            the sinDiasUteisRetornoProgramado to set
-	 */
-	public void setSinDiasUteisRetornoProgramado(
-			SinDiasUteisRetornoProgramadoWS sinDiasUteisRetornoProgramado) {
-		this.sinDiasUteisRetornoProgramado = sinDiasUteisRetornoProgramado;
-	}
-
-	/**
 	 * @return the sinReabrir
 	 */
 	public SinReabrirWS getSinReabrir() {
@@ -256,13 +107,5 @@ public class ParametrosEnviarProcessoWS {
 			this.sinReabrir = SinReabrirWS.NAO;
 		}
 		return sinReabrir;
-	}
-
-	/**
-	 * @param sinReabrir
-	 *            the sinReabrir to set
-	 */
-	public void setSinReabrir(SinReabrirWS sinReabrir) {
-		this.sinReabrir = sinReabrir;
 	}
 }

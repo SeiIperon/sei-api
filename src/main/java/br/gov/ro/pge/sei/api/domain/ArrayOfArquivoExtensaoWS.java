@@ -3,40 +3,18 @@
  */
 package br.gov.ro.pge.sei.api.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
-/**
- * @author janon.sousa
- * 
- */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ArrayOfArquivoExtensaoWS {
 
 	private List<ArquivoExtensaoWS> item;
-
-	public ArrayOfArquivoExtensaoWS() {
-		// --
-	}
-
-	/**
-	 * @param item
-	 */
-	public ArrayOfArquivoExtensaoWS(List<ArquivoExtensaoWS> item) {
-		super();
-		this.item = item;
-	}
-
-	/**
-	 * @return the item
-	 */
-	public List<ArquivoExtensaoWS> getItem() {
-		return item;
-	}
-
-	/**
-	 * @param item
-	 *            the item to set
-	 */
-	public void setItem(List<ArquivoExtensaoWS> item) {
-		this.item = item;
-	}
 }
