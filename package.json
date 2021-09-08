@@ -1,0 +1,23 @@
+{
+  "name": "sei-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@gitlab.com:pge-dev/sei-api.git",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "3.3.0",
+    "husky": "^7.0.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "scripts": {
+    "commit": "git-cz"
+  }
+}
