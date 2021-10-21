@@ -1,3 +1,4 @@
+{{ if eq .Values.environment "dev" }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -31,4 +32,4 @@ spec:
               number: {{.Values.serverPort}}
         path: /
         pathType: Prefix
-
+{{ end }}
