@@ -1,0 +1,4 @@
+<Assunto xsi:type="sei:Assunto">
+	<CodigoEstruturado xsi:type="xsd:string">PARAM_1</CodigoEstruturado>
+	<Descricao xsi:type="xsd:string">PARAM_2</Descricao>
+</Assunto>

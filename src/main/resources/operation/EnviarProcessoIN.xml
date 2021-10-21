@@ -1,0 +1,21 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:sei="Sei" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+	<soapenv:Header />
+	<soapenv:Body>
+		<sei:enviarProcesso soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+			<SiglaSistema xsi:type="xsd:string">PARAM_1</SiglaSistema>
+			<IdentificacaoServico xsi:type="xsd:string">PARAM_2</IdentificacaoServico>
+			<IdUnidade xsi:type="xsd:string">PARAM_3</IdUnidade>
+			<ProtocoloProcedimento xsi:type="xsd:string">PARAM_4</ProtocoloProcedimento>
+			<UnidadesDestino xsi:type="sei:ArrayOfIdUnidade" soapenc:arrayType="xsd:string[PARAM_LENGTH_1]">PARAM_5</UnidadesDestino>
+			<SinManterAbertoUnidade xsi:type="xsd:string">PARAM_6</SinManterAbertoUnidade>
+			<SinRemoverAnotacao xsi:type="xsd:string">PARAM_7</SinRemoverAnotacao>
+			<SinEnviarEmailNotificacao xsi:type="xsd:string">PARAM_8</SinEnviarEmailNotificacao>
+			<DataRetornoProgramado xsi:type="xsd:string">PARAM_9</DataRetornoProgramado>
+			<DiasRetornoProgramado xsi:type="xsd:string">PARAM_10</DiasRetornoProgramado>
+			<SinDiasUteisRetornoProgramado xsi:type="xsd:string">PARAM_11</SinDiasUteisRetornoProgramado>
+			<SinReabrir xsi:type="xsd:string">PARAM_12</SinReabrir>
+		</sei:enviarProcesso>
+	</soapenv:Body>
+</soapenv:Envelope>

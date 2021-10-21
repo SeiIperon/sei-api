@@ -1,0 +1,35 @@
+{{ if eq .Values.environment "dev" }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    {{ if eq .Values.environment "prod" }}
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    {{ end }}
+  name: {{ .Release.Name }}
+spec:
+  {{ if eq .Values.environment "prod" }}
+  tls:
+  - hosts:
+    - {{ .Values.global.hostName | quote }}
+    secretName: "{{ .Release.Name }}-tls"
+  {{ end }}
+  rules:
+  - host: {{.Values.global.hostName | quote}}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ .Release.Name }}
+            port: 
+              number: {{.Values.serverPort}}
+        path: /
+        pathType: Prefix
+{{ end }}

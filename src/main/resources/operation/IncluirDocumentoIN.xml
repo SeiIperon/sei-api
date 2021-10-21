@@ -1,0 +1,36 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:sei="Sei" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+	<soapenv:Header />
+	<soapenv:Body>
+		<sei:incluirDocumento soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+			<SiglaSistema xsi:type="xsd:string">PARAM_1</SiglaSistema>
+			<IdentificacaoServico xsi:type="xsd:string">PARAM_2</IdentificacaoServico>
+			<IdUnidade xsi:type="xsd:string">PARAM_3</IdUnidade>
+			<Documento xsi:type="sei:Documento">
+				<Tipo xsi:type="xsd:string">PARAM_4</Tipo>
+				<IdProcedimento xsi:type="xsd:string">PARAM_5</IdProcedimento>
+				<ProtocoloProcedimento xsi:type="xsd:string">PARAM_6</ProtocoloProcedimento>
+				<IdSerie xsi:type="xsd:string">PARAM_7</IdSerie>
+				<Numero xsi:type="xsd:string">PARAM_8</Numero>
+				<Data xsi:type="xsd:string">PARAM_9</Data>
+				<Descricao xsi:type="xsd:string">PARAM_10</Descricao>
+				<IdTipoConferencia xsi:type="xsd:string">PARAM_11</IdTipoConferencia>
+				
+				<Remetente xsi:type="sei:Remetente">PARAM_20</Remetente>
+				<Interessados xsi:type="sei:ArrayOfInteressado" soapenc:arrayType="sei:Interessado[PARAM_LENGTH_1]">PARAM_21</Interessados>
+				<Destinatarios xsi:type="sei:ArrayOfDestinatario" soapenc:arrayType="sei:Destinatario[PARAM_LENGTH_2]">PARAM_22</Destinatarios>
+				
+				<Observacao xsi:type="xsd:string">PARAM_12</Observacao>
+				<NomeArquivo xsi:type="xsd:string">PARAM_13</NomeArquivo>
+				<NivelAcesso xsi:type="xsd:string">PARAM_14</NivelAcesso>
+				<IdHipoteseLegal xsi:type="xsd:string">PARAM_15</IdHipoteseLegal>
+				<Conteudo xsi:type="xsd:string">PARAM_16</Conteudo>
+				<ConteudoMTOM xsi:type="xsd:base64Binary">PARAM_17</ConteudoMTOM>
+				<IdArquivo xsi:type="xsd:string">PARAM_18</IdArquivo>
+				<Campos xsi:type="sei:ArrayOfCampo" soapenc:arrayType="sei:Campo[]"/>
+				<SinBloqueado xsi:type="xsd:string">PARAM_19</SinBloqueado>
+			</Documento>
+		</sei:incluirDocumento>
+	</soapenv:Body>
+</soapenv:Envelope>

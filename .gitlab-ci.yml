@@ -1,0 +1,158 @@
+stages:
+  - analyze
+  - test
+  - build
+  - images
+  - release
+  - deploy
+  - clean
+
+variables:
+  IMAGE_NAME: $REGISTRY_URL/pge/$CI_PROJECT_NAME
+  IMAGE_TAG: $CI_COMMIT_REF_NAME-$CI_PIPELINE_ID
+  
+unit-test:
+  stage: test
+  image: gradle:6.3.0-jdk11
+  tags:
+    - docker-runner
+  script:
+    - ./gradlew --build-cache test
+  allow_failure: true
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    policy: push
+    paths:
+      - build
+      - gradle
+      - .gradle 
+  only:
+    - develop
+        
+app-build:
+  stage: build
+  image: openjdk:11
+  tags:
+    - docker-runner
+  script:
+    - ./gradlew dockerCreateDockerfile
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    policy: pull
+    paths:
+    - build
+    - gradle
+    - .gradle
+  artifacts:
+    paths:
+      - build/docker/*
+    expire_in: 1 week
+  only:
+    - main
+    - develop
+    
+docker-build:
+  stage: images
+  tags:
+    - docker-runner
+  script:
+    - docker build -f build/docker/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG ./build/docker
+    - docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+  only:
+    - main
+    - develop
+  variables:
+    GIT_STRATEGY: none
+    
+docker_push:
+  stage: release
+  tags:
+    - docker-runner
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - docker login -u $PGE_REGISTRY_USER -p $PGE_REGISTRY_PASS $REGISTRY_URL
+  script:
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+    - docker push $IMAGE_NAME:latest
+  only:
+    - main
+    - develop
+
+gitlab-release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  tags:
+    - docker-runner
+  only: 
+    - main
+  script:
+    - echo 'Releasing '$IMAGE_TAG
+  release:
+    tag_name: $IMAGE_TAG
+    description: Release $IMAGE_TAG
+
+.deploy_template: &deploy_definition
+  stage: deploy
+  image:
+    name: alpine/k8s:1.20.4
+  tags:
+    - docker-runner
+  script:
+    - mkdir /root/.kube/
+    - echo $KUBE_CONFIG | base64 -d > /root/.kube/config
+    - helm upgrade 
+      $CI_PROJECT_NAME ./chart 
+        --namespace $NAMESPACE 
+        --install 
+        --create-namespace
+        --set imageName=$IMAGE_NAME
+        --set imageTag=$IMAGE_TAG
+        --set environment=$ENVIRONMENT
+        --set global.hostName=$HOSTNAME
+        --set javaOpts=$JAVA_OPTS
+
+deploy_homolog:
+  <<: *deploy_definition
+  environment:
+    name: homolog
+  only:
+    - develop
+
+deploy_prod:
+  <<: *deploy_definition
+  environment:
+    name: prod
+  only:
+    - main
+    
+docker_clean:
+  stage: clean
+  tags:
+    - docker-runner
+  only:
+    - main
+    - develop
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - echo "Limpando imagens antigas e mantendo apenas a latest e a $IMAGE_TAG"
+    - for i in `docker images|grep $IMAGE_NAME|egrep -v latest|egrep -v $IMAGE_TAG | awk '{ print $3 }'`;do docker rmi -f $i;done
+
+sonarqube-check:
+  stage: analyze
+  image: openjdk:11
+  tags:
+    - docker-runner
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - ./gradlew sonarqube
+  allow_failure: true
+  only:
+    - develop

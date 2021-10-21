@@ -1,0 +1,4 @@
+<Remetente xsi:type="sei:Remetente">
+	<Sigla xsi:type="xsd:string">PARAM_1</Sigla>
+	<Nome xsi:type="xsd:string">PARAM_2</Nome>
+</Remetente>

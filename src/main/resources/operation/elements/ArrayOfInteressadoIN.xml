@@ -1,0 +1,4 @@
+<Interessado xsi:type="sei:Interessado">
+	<Sigla xsi:type="xsd:string">PARAM_1</Sigla>
+	<Nome xsi:type="xsd:string">PARAM_2</Nome>
+</Interessado>
