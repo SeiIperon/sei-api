@@ -628,6 +628,50 @@ public class SeiService {
 			throw new SeiFaultException(500, e.getMessage(), Message.MNE00001);
 		}
 	}
+
+	public RespostaConsultarDocumentoWS consultarDocumento(ParametrosConsultarDocumentoWS param) throws SeiFaultException {
+		// revisar Message
+		if (ObjectUtils.isEmpty(param))
+			throw new SeiFaultException(400, Message.MNE00002);
+		if (ObjectUtils.isEmpty(param.getSiglaSistema()))
+			throw new SeiFaultException(400, Message.MNE00003);
+		if (ObjectUtils.isEmpty(param.getIdentificacaoServico()))
+			throw new SeiFaultException(400, Message.MNE00004);
+		if (ObjectUtils.isEmpty(param.getProtocoloDocumento()))
+			throw new SeiFaultException(400, Message.MNE00008);
+		// --
+		try {
+			String messageBody = XMLUtils.readXMLFile(this.realPath + File.separator + "ConsultarDocumento.xml");
+
+			messageBody = StringUtils.replace(messageBody, "PARAM_1", param.getSiglaSistema());
+			messageBody = StringUtils.replace(messageBody, "PARAM_2", param.getIdentificacaoServico());
+			messageBody = StringUtils.replace(messageBody, "PARAM_3", StringUtils.toString(param.getIdUnidade()));
+			messageBody = StringUtils.replace(messageBody, "PARAM_4", param.getProtocoloDocumento());
+
+			messageBody = StringUtils.replace(messageBody, "PARAM_5", param.getSinRetornarAdamentoGeracao().getCodSinalizador());
+			messageBody = StringUtils.replace(messageBody, "PARAM_6", param.getSinRetornarAssinaturas().getCodSinalizador());
+			messageBody = StringUtils.replace(messageBody, "PARAM_7", param.getSinRetornarPublicacao().getCodSinalizador());
+			messageBody = StringUtils.replace(messageBody, "PARAM_8", param.getSinRetornarCampos().getCodSinalizador());
+			// --
+			String output = SOAPUtils.call(messageBody);
+			RespostaConsultarDocumentoWS out = null;
+			Envelope envelope = XMLStream.DESERIALIZED.getConsultarProcedimento(output);
+			if (!ObjectUtils.isEmpty(envelope)
+					&& !ObjectUtils.isEmpty(envelope.getBody())
+					&& !ObjectUtils.isEmpty(envelope.getBody().getConsultarDocumentoResponse())) {
+				out = new RespostaConsultarDocumentoWS();
+				out.setParametros(envelope.getBody().getConsultarDocumentoResponse().getParametros());
+				return out;
+			}
+			throw new SeiFaultException(400, Message.MNE00019);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			if (e instanceof SeiFaultException) {
+				throw (SeiFaultException) e;
+			}
+			throw new SeiFaultException(500, e.getMessage(), Message.MNE00001);
+		}
+	}
 	
 	public RespostaListarExtensoesPermitidasWS listarExtensoesPermitidas(
 			ParametrosListarExtensoesPermitidasWS param) throws SeiFaultException {

@@ -223,6 +223,47 @@ public final class XMLStream {
 		Envelope envelope = (Envelope) xstream.fromXML(xml);
 		return envelope;
 	}
+
+	public Envelope getConsultarDocumento(String xml) {
+		// --
+		final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+		// --
+		XStream xstream = new XStream(new DomDriver());
+		// --
+		xstream.registerConverter(new DateConverter(DATE_FORMAT, new String[] { "dd/MM/yyyy" }, TimeZone.getDefault()));
+		// --
+		xstream.alias("SOAP-ENV:Envelope", Envelope.class);
+		xstream.aliasField("SOAP-ENV:Body", Envelope.class, "body");
+		xstream.aliasField("ns1:consultarProcedimentoResponse", Body.class, "consultarProcedimentoResponse");
+
+		xstream.alias("parametros", RetornoConsultaProcedimentoWS.class);
+		xstream.aliasField("IdProcedimento", RetornoConsultaDocumentoWS.class, "idProcedimento");
+		xstream.aliasField("ProcedimentoFormatado", RetornoConsultaDocumentoWS.class, "procedimentoFormatado");
+		xstream.aliasField("IdDocumento", RetornoConsultaDocumentoWS.class, "especificacao");
+		xstream.aliasField("DocumentoFormatado", RetornoConsultaDocumentoWS.class, "dataAutuacao");
+		xstream.aliasField("LinkAcesso", RetornoConsultaDocumentoWS.class, "linkAcesso");
+
+		xstream.aliasField("Serie", RetornoConsultaDocumentoWS.class, "tipoProcedimento");
+		xstream.aliasField("Numero", RetornoConsultaDocumentoWS.class, "nome");
+
+		xstream.aliasField("Descricao", RetornoConsultaDocumentoWS.class, "unidadesProcedimentoAberto");
+		xstream.aliasField("Data", RetornoConsultaDocumentoWS.class, "unidade");
+		xstream.aliasField("UnidadeElaboradora", UnidadeWS.class, "idUnidade");
+		xstream.aliasField("AndamentoGeracao", AndamentoWS.class, "sigla");
+
+		xstream.aliasField("Assinaturas", RetornoConsultaDocumentoWS.class, "descricao");
+		xstream.aliasField("nome", AssinaturasWS.class, "descricao");
+		xstream.addImplicitCollection(ArrayOfRetornoConsultaResumidoWS.class, "item", "item xsi:type=\"ns1:ProcedimentoResumido\"", RetornoConsultaDocumentoWS.class);
+
+		xstream.aliasField("Publicacao", PublicacaoWS.class, "procedimentosRelacionados");
+		xstream.aliasField("Campos", CampoWS.class, "idProcedimento");
+
+
+		xstream.ignoreUnknownElements();
+		Envelope envelope = (Envelope) xstream.fromXML(xml);
+		return envelope;
+	}
+
 	
 	public Envelope getListarExtensoesPermitidas(String xml) {
 		XStream xstream = new XStream(new DomDriver());
