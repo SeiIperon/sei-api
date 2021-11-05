@@ -234,29 +234,73 @@ public final class XMLStream {
 		// --
 		xstream.alias("SOAP-ENV:Envelope", Envelope.class);
 		xstream.aliasField("SOAP-ENV:Body", Envelope.class, "body");
-		xstream.aliasField("ns1:consultarProcedimentoResponse", Body.class, "consultarProcedimentoResponse");
+		xstream.aliasField("ns1:consultarDocumentoResponse", Body.class, "consultarDocumentoResponse");
 
-		xstream.alias("parametros", RetornoConsultaProcedimentoWS.class);
+		xstream.alias("parametros", RetornoConsultaDocumentoWS.class);
 		xstream.aliasField("IdProcedimento", RetornoConsultaDocumentoWS.class, "idProcedimento");
 		xstream.aliasField("ProcedimentoFormatado", RetornoConsultaDocumentoWS.class, "procedimentoFormatado");
-		xstream.aliasField("IdDocumento", RetornoConsultaDocumentoWS.class, "especificacao");
-		xstream.aliasField("DocumentoFormatado", RetornoConsultaDocumentoWS.class, "dataAutuacao");
+		xstream.aliasField("IdDocumento", RetornoConsultaDocumentoWS.class, "idDocumento");
+		xstream.aliasField("DocumentoFormatado", RetornoConsultaDocumentoWS.class, "documentoFormatado");
 		xstream.aliasField("LinkAcesso", RetornoConsultaDocumentoWS.class, "linkAcesso");
 
-		xstream.aliasField("Serie", RetornoConsultaDocumentoWS.class, "tipoProcedimento");
-		xstream.aliasField("Numero", RetornoConsultaDocumentoWS.class, "nome");
+		xstream.aliasField("Serie", SerieWS.class, "serie");
+		xstream.aliasField("IdSerie", SerieWS.class, "idSerie");
+		xstream.aliasField("Nome", SerieWS.class, "nome");
+		xstream.aliasField("Aplicabilidade", SerieWS.class, "aplicabilidade");
 
-		xstream.aliasField("Descricao", RetornoConsultaDocumentoWS.class, "unidadesProcedimentoAberto");
-		xstream.aliasField("Data", RetornoConsultaDocumentoWS.class, "unidade");
-		xstream.aliasField("UnidadeElaboradora", UnidadeWS.class, "idUnidade");
-		xstream.aliasField("AndamentoGeracao", AndamentoWS.class, "sigla");
+		xstream.aliasField("Numero", RetornoConsultaDocumentoWS.class, "numero");
+		xstream.aliasField("Descricao", RetornoConsultaDocumentoWS.class, "descricao");
+		xstream.aliasField("Data", RetornoConsultaDocumentoWS.class, "data");
 
-		xstream.aliasField("Assinaturas", RetornoConsultaDocumentoWS.class, "descricao");
-		xstream.aliasField("nome", AssinaturasWS.class, "descricao");
-		xstream.addImplicitCollection(ArrayOfRetornoConsultaResumidoWS.class, "item", "item xsi:type=\"ns1:ProcedimentoResumido\"", RetornoConsultaDocumentoWS.class);
+		xstream.aliasField("UnidadeElaboradora", UnidadeWS.class, "unidadeElaboradora");
+		xstream.aliasField("IdUnidade", UnidadeWS.class, "idUnidade");
+		xstream.aliasField("Sigla", UnidadeWS.class, "sigla");
+		xstream.aliasField("Descricao", UnidadeWS.class, "descricao");
 
-		xstream.aliasField("Publicacao", PublicacaoWS.class, "procedimentosRelacionados");
-		xstream.aliasField("Campos", CampoWS.class, "idProcedimento");
+		xstream.aliasField("AndamentoGeracao", AndamentoWS.class, "andamentoGeracao");
+		xstream.aliasField("IdAndamento", AndamentoWS.class, "idAndamento");
+		xstream.aliasField("IdTarefa", AndamentoWS.class, "idTarefa");
+		xstream.aliasField("Descricao", AndamentoWS.class, "descricao");
+		xstream.aliasField("DataHora", AndamentoWS.class, "dataHora");
+		xstream.aliasField("Unidade", AndamentoWS.class, "unidade");
+		xstream.aliasField("Usuario", AndamentoWS.class, "usuario");
+
+		xstream.aliasField("Item", ArrayOfAtributoAndamentoWS.class, "item");
+		xstream.alias("item xsi:type=\"ns1:ArquivoExtensao\"", AtributoAndamentoWS.class);
+		xstream.aliasField("Nome", AtributoAndamentoWS.class, "nome");
+		xstream.aliasField("Valor", AtributoAndamentoWS.class, "valor");
+		xstream.aliasField("IdOrigem", AtributoAndamentoWS.class, "idOrigem");
+		xstream.addImplicitCollection(ArrayOfAtributoAndamentoWS.class, "andamento", "item xsi:type=\"ns1:andamento\"", AtributoAndamentoWS.class);
+
+		xstream.aliasField("Assinaturas", ArrayOfAssinaturaWS.class, "assinaturas");
+		xstream.alias("item xsi:type=\"ns1:assinaturas\"", AssinaturaWS.class);
+		xstream.aliasField("Nome", AssinaturaWS.class, "nome");
+		xstream.aliasField("CargoFuncao", AssinaturaWS.class, "cargoFuncao");
+		xstream.aliasField("DataHora", AssinaturaWS.class, "dataHora");
+		xstream.aliasField("IdUsuario", AssinaturaWS.class, "idUsuario");
+		xstream.aliasField("IdOrigem", AssinaturaWS.class, "idOrigem");
+		xstream.aliasField("IdOrgao", AssinaturaWS.class, "idOrgao");
+		xstream.aliasField("Sigla", AssinaturaWS.class, "sigla");
+		xstream.addImplicitCollection(ArrayOfAssinaturaWS.class, "assinaturas", "item xsi:type=\"ns1:assinatura\"", AssinaturaWS.class);
+
+		xstream.aliasField("Publicacao", PublicacaoWS.class, "publicacao");
+		xstream.aliasField("IdPublicacao", PublicacaoWS.class, "idPublicacao");
+		xstream.aliasField("IdDocumento", PublicacaoWS.class, "idDocumento");
+		xstream.aliasField("StaMotivo", PublicacaoWS.class, "staMotivo");
+		xstream.aliasField("Resumo", PublicacaoWS.class, "resumo");
+		xstream.aliasField("IdVeiculoPublicacao", PublicacaoWS.class, "idVeiculoPublicacao");
+		xstream.aliasField("NomeVeiculo", PublicacaoWS.class, "nomeVeiculo");
+		xstream.aliasField("StaVeiculo", PublicacaoWS.class, "staTipoVeiculo");
+		xstream.aliasField("DataDisponibilizacao", PublicacaoWS.class, "dataDisponibilizacao");
+		xstream.aliasField("DataPublicacao", PublicacaoWS.class, "dataPublicacao");
+		xstream.aliasField("Estado", PublicacaoWS.class, "estado");
+
+		xstream.aliasField("Campo", ArrayOfCampoWS.class, "campo");
+		xstream.alias("item xsi:type=\"ns1:campo\"", CampoWS.class);
+		xstream.aliasField("IdCampo", CampoWS.class, "idCampo");
+		xstream.aliasField("Nome", CampoWS.class, "nome");
+		xstream.aliasField("Valor", CampoWS.class, "valor");
+		xstream.addImplicitCollection(ArrayOfCampoWS.class, "campo", "item xsi:type=\"ns1:campo\"", CampoWS.class);
 
 
 		xstream.ignoreUnknownElements();
