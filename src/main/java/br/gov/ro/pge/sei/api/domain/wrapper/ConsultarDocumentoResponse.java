@@ -3,7 +3,7 @@
  */
 package br.gov.ro.pge.sei.api.domain.wrapper;
 
-import br.gov.ro.pge.sei.api.domain.RetornoConsultaProcedimentoWS;
+import br.gov.ro.pge.sei.api.domain.RetornoConsultaDocumentoWS;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConsultarDocumentoResponse {
-    /// alterar
-    private RetornoConsultaProcedimentoWS parametros;
+
+    private RetornoConsultaDocumentoWS parametros;
 }

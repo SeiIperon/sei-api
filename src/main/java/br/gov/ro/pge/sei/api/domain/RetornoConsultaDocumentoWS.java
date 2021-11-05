@@ -19,14 +19,14 @@ public class RetornoConsultaDocumentoWS {
     private String documentoFormatado;
     private String linkAcesso;
 
-    private SerieWS Serie;
-    private String Numero;
-    private String Descricao;
-    private Date Data;
+    private SerieWS serie;
+    private String numero;
+    private String descricao;
+    private Date data;
     private UnidadeWS unidadeElaboradora;
 
     private AndamentoWS andamentoGeracao;
-    private AssinaturasWS assinaturas;
+    private AssinaturaWS assinaturas;
     private PublicacaoWS publicacao;
     private CampoWS campos;
 }
