@@ -11,14 +11,14 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AssinaturasWS {
+public class AssinaturaWS {
 
     private String nome;
-    private String CargoFuncao;
-    private Date DataHora;
-    private Long IdUsuario;
-    private Long IdOrigem;
-    private Long IdOrgao;
-    private String Sigla;
+    private String cargoFuncao;
+    private Date dataHora;
+    private Long idUsuario;
+    private Long idOrigem;
+    private Long idOrgao;
+    private String sigla;
 
 }
