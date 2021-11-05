@@ -655,7 +655,7 @@ public class SeiService {
 			// --
 			String output = SOAPUtils.call(messageBody);
 			RespostaConsultarDocumentoWS out = null;
-			Envelope envelope = XMLStream.DESERIALIZED.getConsultarProcedimento(output);
+			Envelope envelope = XMLStream.DESERIALIZED.getConsultarDocumento(output);
 			if (!ObjectUtils.isEmpty(envelope)
 					&& !ObjectUtils.isEmpty(envelope.getBody())
 					&& !ObjectUtils.isEmpty(envelope.getBody().getConsultarDocumentoResponse())) {
