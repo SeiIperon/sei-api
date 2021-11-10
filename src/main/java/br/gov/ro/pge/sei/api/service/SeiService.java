@@ -647,7 +647,6 @@ public class SeiService {
 			messageBody = StringUtils.replace(messageBody, "PARAM_2", param.getIdentificacaoServico());
 			messageBody = StringUtils.replace(messageBody, "PARAM_3", StringUtils.toString(param.getIdUnidade()));
 			messageBody = StringUtils.replace(messageBody, "PARAM_4", param.getProtocoloDocumento());
-
 			messageBody = StringUtils.replace(messageBody, "PARAM_5", param.getSinRetornarAdamentoGeracao().getCodSinalizador());
 			messageBody = StringUtils.replace(messageBody, "PARAM_6", param.getSinRetornarAssinaturas().getCodSinalizador());
 			messageBody = StringUtils.replace(messageBody, "PARAM_7", param.getSinRetornarPublicacao().getCodSinalizador());

@@ -16,5 +16,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ArrayOfAssinaturaWS {
 
-	private List<AssinaturaWS> assinaturas;
+	private List<AssinaturaWS> item;
 }

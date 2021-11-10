@@ -1,11 +1,11 @@
 package br.gov.ro.pge.sei.api.domain.parameter;
 
 import br.gov.ro.pge.sei.api.domain.SimDocumentoWS;
-import br.gov.ro.pge.sei.api.domain.SimProcedimentoWS;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-
-import javax.validation.constraints.NotNull;
 
 @Data
 @Builder

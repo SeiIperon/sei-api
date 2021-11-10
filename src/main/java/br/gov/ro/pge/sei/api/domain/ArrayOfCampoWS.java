@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ArrayOfCampoWS {
 
-	private List<CampoWS> campo;
+	private List<CampoWS> item;
 }

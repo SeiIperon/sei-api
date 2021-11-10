@@ -13,9 +13,13 @@ public class AndamentoWS {
 
 	private Long idAndamento;
 	private Long idTarefa;
+	private Long idTarefaModulo;
 	private String descricao;
 	private String dataHora;
+
 	private UnidadeWS unidade;
+
 	private UsuarioWS usuario;
+
 	private ArrayOfAtributoAndamentoWS atributos;
 }

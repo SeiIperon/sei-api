@@ -46,7 +46,7 @@ public class SeiController {
         return ResponseEntity.ok(out);
     }
 
-    @GetMapping(value = "/consultar-documento", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/consultar-documento", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RespostaConsultarDocumentoWS> consultarDocumento(@RequestBody(required = false) ParametrosConsultarDocumentoWS param) throws SeiFaultException {
         RespostaConsultarDocumentoWS out = this.seiService.consultarDocumento(param);
         return ResponseEntity.ok(out);

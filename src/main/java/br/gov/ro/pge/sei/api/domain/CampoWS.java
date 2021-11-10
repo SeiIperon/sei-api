@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CampoWS {
 
-	private Long idCampo;
-
 	private String nome;
 
 	private String valor;
