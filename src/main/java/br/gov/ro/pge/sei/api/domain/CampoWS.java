@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 public class CampoWS {
 
 	private String nome;
-
 	private String valor;
 }

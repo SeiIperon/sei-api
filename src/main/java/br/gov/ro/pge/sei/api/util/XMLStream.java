@@ -286,7 +286,7 @@ public final class XMLStream {
 		xstream.aliasField("Nome", UsuarioWS.class, "nome");
 
 		xstream.aliasField("Atributos", AndamentoWS.class, "atributos");
-		xstream.alias("item xsi:type=\"ns1:AtributoAndamento\"", ArrayOfAtributoAndamentoWS.class);
+		xstream.aliasField("item xsi:type=\"ns1:AtributoAndamento\"", ArrayOfAtributoAndamentoWS.class, "item");
 		xstream.aliasField("Nome", AtributoAndamentoWS.class, "nome");
 		xstream.aliasField("Valor", AtributoAndamentoWS.class, "valor");
 		xstream.aliasField("IdOrigem", AtributoAndamentoWS.class, "idOrigem");
@@ -304,16 +304,18 @@ public final class XMLStream {
 		xstream.addImplicitCollection(ArrayOfAssinaturaWS.class, "item", "item xsi:type=\"ns1:Assinatura\"", AssinaturaWS.class);
 
 		xstream.aliasField("Publicacao", RetornoConsultaDocumentoWS.class, "publicacao");
-		xstream.aliasField("IdPublicacao", PublicacaoWS.class, "idPublicacao");
-		xstream.aliasField("IdDocumento", PublicacaoWS.class, "idDocumento");
-		xstream.aliasField("StaMotivo", PublicacaoWS.class, "staMotivo");
-		xstream.aliasField("Resumo", PublicacaoWS.class, "resumo");
-		xstream.aliasField("IdVeiculoPublicacao", PublicacaoWS.class, "idVeiculoPublicacao");
 		xstream.aliasField("NomeVeiculo", PublicacaoWS.class, "nomeVeiculo");
-		xstream.aliasField("StaVeiculo", PublicacaoWS.class, "staTipoVeiculo");
+		xstream.aliasField("Numero", PublicacaoWS.class, "numero");
 		xstream.aliasField("DataDisponibilizacao", PublicacaoWS.class, "dataDisponibilizacao");
 		xstream.aliasField("DataPublicacao", PublicacaoWS.class, "dataPublicacao");
 		xstream.aliasField("Estado", PublicacaoWS.class, "estado");
+
+		xstream.aliasField("ImprensaNacional", PublicacaoWS.class, "imprensaNacional");
+		xstream.aliasField("SiglaVeiculo", PublicacaoImprensaNacionalWS.class, "siglaVeiculo");
+		xstream.aliasField("DescricaoVeiculo", PublicacaoImprensaNacionalWS.class, "descricaoVeiculo");
+		xstream.aliasField("Pagina", PublicacaoImprensaNacionalWS.class, "pagina");
+		xstream.aliasField("Secao", PublicacaoImprensaNacionalWS.class, "secao");
+		xstream.aliasField("Data", PublicacaoImprensaNacionalWS.class, "data");
 
 		xstream.aliasField("Campos", RetornoConsultaDocumentoWS.class, "campos");
 		xstream.aliasField("item xsi:type=\"ns1:Campo\"", ArrayOfCampoWS.class, "item");
