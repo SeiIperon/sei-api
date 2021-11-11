@@ -3,6 +3,7 @@
  */
 package br.gov.ro.pge.sei.api.controller;
 
+import br.gov.ro.pge.sei.api.domain.RetornoConsultaDocumentoWS;
 import br.gov.ro.pge.sei.api.domain.fault.SeiFaultException;
 import br.gov.ro.pge.sei.api.domain.parameter.*;
 import br.gov.ro.pge.sei.api.domain.response.*;
@@ -47,9 +48,8 @@ public class SeiController {
     }
 
     @PostMapping(value = "/consultar-documento", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RespostaConsultarDocumentoWS> consultarDocumento(@RequestBody(required = false) ParametrosConsultarDocumentoWS param) throws SeiFaultException {
+    public ResponseEntity<RetornoConsultaDocumentoWS> consultarDocumento(@RequestBody(required = false) ParametrosConsultarDocumentoWS param) throws SeiFaultException {
         RespostaConsultarDocumentoWS out = this.seiService.consultarDocumento(param);
-        return ResponseEntity.ok(out);
+        return ResponseEntity.ok(out.getParametros());
     }
-
 }
