@@ -4,14 +4,8 @@
 package br.gov.ro.pge.sei.api.controller;
 
 import br.gov.ro.pge.sei.api.domain.fault.SeiFaultException;
-import br.gov.ro.pge.sei.api.domain.parameter.ParametrosConsultarSeriesWS;
-import br.gov.ro.pge.sei.api.domain.parameter.ParametrosGerarProcedimentoWS;
-import br.gov.ro.pge.sei.api.domain.parameter.ParametrosIncluirDocumentoWS;
-import br.gov.ro.pge.sei.api.domain.parameter.ParametrosListarExtensoesPermitidasWS;
-import br.gov.ro.pge.sei.api.domain.response.RespostaConsultarSeriesWS;
-import br.gov.ro.pge.sei.api.domain.response.RespostaGerarProcedimentoWS;
-import br.gov.ro.pge.sei.api.domain.response.RespostaIncluirDocumentoWS;
-import br.gov.ro.pge.sei.api.domain.response.RespostaListarExtensoesPermitidasWS;
+import br.gov.ro.pge.sei.api.domain.parameter.*;
+import br.gov.ro.pge.sei.api.domain.response.*;
 import br.gov.ro.pge.sei.api.service.SeiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -49,6 +43,12 @@ public class SeiController {
     @GetMapping(value = "/consultar-series", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RespostaConsultarSeriesWS> consultarSeries(@RequestBody(required = false) ParametrosConsultarSeriesWS param) throws SeiFaultException {
         RespostaConsultarSeriesWS out = this.seiService.consultarSeries(param);
+        return ResponseEntity.ok(out);
+    }
+
+    @PostMapping(value = "/consultar-documento", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RespostaConsultarDocumentoWS> consultarDocumento(@RequestBody(required = false) ParametrosConsultarDocumentoWS param) throws SeiFaultException {
+        RespostaConsultarDocumentoWS out = this.seiService.consultarDocumento(param);
         return ResponseEntity.ok(out);
     }
 

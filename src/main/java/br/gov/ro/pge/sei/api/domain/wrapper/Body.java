@@ -21,6 +21,7 @@ public class Body {
 	private RespostaListarUnidadesWS listarUnidades;
 	private RespostaConsultarSeriesWS listarSeries;
 	private ConsultarProcedimentoResponse consultarProcedimentoResponse;
+	private ConsultarDocumentoResponse consultarDocumentoResponse;
 	private ListarExtensoesPermitidasResponse listarExtensoesPermitidasResponse;
 	
 	private RelacionarProcessoResponse relacionarProcessoResponse;
