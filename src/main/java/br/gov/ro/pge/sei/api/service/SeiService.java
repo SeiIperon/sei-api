@@ -631,14 +631,18 @@ public class SeiService {
 
 	public RespostaConsultarDocumentoWS consultarDocumento(ParametrosConsultarDocumentoWS param) throws SeiFaultException {
 		// revisar Message
-		if (ObjectUtils.isEmpty(param))
+		if (ObjectUtils.isEmpty(param)) {
 			throw new SeiFaultException(400, Message.MNE00002);
-		if (ObjectUtils.isEmpty(param.getSiglaSistema()))
+		}
+		if (ObjectUtils.isEmpty(param.getSiglaSistema())) {
 			throw new SeiFaultException(400, Message.MNE00003);
-		if (ObjectUtils.isEmpty(param.getIdentificacaoServico()))
+		}
+		if (ObjectUtils.isEmpty(param.getIdentificacaoServico())) {
 			throw new SeiFaultException(400, Message.MNE00004);
-		if (ObjectUtils.isEmpty(param.getProtocoloDocumento()))
+		}
+		if (ObjectUtils.isEmpty(param.getProtocoloDocumento())) {
 			throw new SeiFaultException(400, Message.MNE00008);
+		}
 		// --
 		try {
 			String messageBody = XMLUtils.readXMLFile(this.realPath + File.separator + "ConsultarDocumento.xml");
@@ -663,11 +667,11 @@ public class SeiService {
 				return out;
 			}
 			throw new SeiFaultException(400, Message.MNE00019);
+		} catch (SeiFaultException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw (SeiFaultException) e;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			if (e instanceof SeiFaultException) {
-				throw (SeiFaultException) e;
-			}
 			throw new SeiFaultException(500, e.getMessage(), Message.MNE00001);
 		}
 	}
