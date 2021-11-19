@@ -7,17 +7,16 @@ import br.gov.ro.pge.sei.api.domain.parameter.*;
 import br.gov.ro.pge.sei.api.domain.response.*;
 import br.gov.ro.pge.sei.api.domain.wrapper.Envelope;
 import br.gov.ro.pge.sei.api.util.*;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class SeiService {
@@ -58,6 +57,16 @@ public class SeiService {
 		if (ObjectUtils.isEmpty(param.getSinDiasUteisRetornoProgramado()))
 			param.setSinDiasUteisRetornoProgramado(SinDiasUteisRetornoProgramadoWS.NAO);
 
+		if (ObjectUtils.isNotEmpty(param.getDocumentos())
+				&& !CollectionUtils.isEmpty(param.getDocumentos().getDocumento())) {
+			RespostaListarExtensoesPermitidasWS extensoes = this
+					.listarExtensoesPermitidas(new ParametrosListarExtensoesPermitidasWS(
+							param.getSiglaSistema(), param.getIdentificacaoServico(), param.getIdUnidade()));
+			for (DocumentoWS documentoWS : param.getDocumentos().getDocumento()) {
+				SeiElementsUtils.validateDocumentoWs(documentoWS, extensoes, false);
+			}
+		}
+
 		try {
 			String messageBody = XMLUtils.readXMLFile(this.realPath + File.separator + "GerarProcedimentoIN.xml");
 			
@@ -97,7 +106,7 @@ public class SeiService {
 				messageBody = StringUtils.replace(messageBody, "PARAM_LENGTH_1", StringUtils.toString(0));
 				messageBody = StringUtils.replace(messageBody, "PARAM_8", StringUtils.toString(null));
 			}
-			
+
 			if (!ObjectUtils.isEmpty(param.getProcedimento().getInteressados()) && !ObjectUtils.isEmpty(param.getProcedimento().getInteressados().getInteressado())) {
 				String arrayOfInteressadoIN = Utils.readFile(this.realPath + File.separator + "elements" + File.separator + "ArrayOfInteressadoIN.xml");
 				String auxIN = "";
@@ -129,8 +138,32 @@ public class SeiService {
 			messageBody = StringUtils.replace(messageBody, "PARAM_17", param.getSinDiasUteisRetornoProgramado().getCodSinalizador());
 			messageBody = StringUtils.replace(messageBody, "PARAM_18", StringUtils.toString(param.getIdMarcador()));
 			messageBody = StringUtils.replace(messageBody, "PARAM_19", param.getTextoMarcador());
-			
-			String output = SOAPUtils.call(messageBody);
+
+			List<Attachment> attachmentList = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(param.getDocumentos())
+					&& !ObjectUtils.isEmpty(param.getDocumentos().getDocumento())) {
+				StringBuilder auxIN = new StringBuilder();
+				int count = 0;
+				for (DocumentoWS iter : param.getDocumentos().getDocumento()) {
+					Attachment attachment = SeiElementsUtils.getAttachment(iter);
+					if (ObjectUtils.isNotEmpty(attachment)) {
+						attachmentList.add(attachment);
+					}
+					String documentoIn = SeiElementsUtils.gerarDocumentoWsXML(iter, attachment);
+					if (count == 0) {
+						auxIN.append(documentoIn);
+					} else {
+						auxIN.append("\n").append(documentoIn);
+					}
+					count++;
+				}
+				messageBody = StringUtils.replace(messageBody, "PARAM_LENGTH_3", StringUtils.toString(count));
+				messageBody = StringUtils.replace(messageBody, "PARAM_20", auxIN.toString());
+			} else {
+				messageBody = StringUtils.replace(messageBody, "PARAM_LENGTH_3", StringUtils.toString(0));
+				messageBody = StringUtils.replace(messageBody, "PARAM_20", StringUtils.toString(null));
+			}
+			String output = SOAPUtils.call(messageBody, attachmentList);
 			RespostaGerarProcedimentoWS gerarProcedimento = null;
 			Envelope envelope = XMLStream.DESERIALIZED.getGerarProcedimento(output);
 			if (!ObjectUtils.isEmpty(envelope)
@@ -161,165 +194,22 @@ public class SeiService {
 				throw new SeiFaultException(400, Message.MNE00004);
 			if (ObjectUtils.isEmpty(param.getIdUnidade()))
 				throw new SeiFaultException(400, Message.MNE00005);
-			if (ObjectUtils.isEmpty(param.getDocumento()))
-				throw new SeiFaultException(400, Message.MNE00012);
-			if (ObjectUtils.isEmpty(param.getDocumento().getTipo()))
-				throw new SeiFaultException(400, Message.MNE00013);
-			if (ObjectUtils.isEmpty(param.getDocumento().getIdSerie()))
-				throw new SeiFaultException(400, Message.MNE00014);
-			if (ObjectUtils.isEmpty(param.getDocumento().getIdProcedimento()) && ObjectUtils.isEmpty(param.getDocumento().getProtocoloProcedimento()))
-				throw new SeiFaultException(400, Message.MNE00015);			
-			if (ObjectUtils.isEmpty(param.getDocumento().getNivelAcesso()))
-				throw new SeiFaultException(400, Message.MNE00010);
-			if (ObjectUtils.isEmpty(param.getDocumento().getSinBloqueado()))
-				param.getDocumento().setSinBloqueado(SinBloqueadoWS.NAO);
-			if (!ObjectUtils.isEmpty(param.getDocumento().getConteudo()) && !ObjectUtils.isEmpty(param.getDocumento().getConteudoMTOM()))
-				throw new SeiFaultException(400, Message.MNE00024);
-			
-			switch (param.getDocumento().getTipo()) {
-			case DOCUMENTO_GERADO:
-				if (!ObjectUtils.isEmpty(param.getDocumento().getConteudoMTOM()))
-					throw new SeiFaultException(400, Message.MNE00025);
-				if (ObjectUtils.isEmpty(param.getDocumento().getConteudo()))
-					throw new SeiFaultException(400, Message.MNE00016);
-				break;
-			case DOCUMENTO_RECEBIDO:
-				if (ObjectUtils.isEmpty(param.getDocumento().getData()))
-					throw new SeiFaultException(400, Message.MNE00027);
-				if (ObjectUtils.isEmpty(param.getDocumento().getRemetente()))
-					throw new SeiFaultException(400, Message.MNE00028);
-				if (ObjectUtils.isEmpty(param.getDocumento().getNomeArquivo()))
-					throw new SeiFaultException(400, Message.MNE00029);
-				break;
-			}
+
+			RespostaListarExtensoesPermitidasWS extensoes = this
+					.listarExtensoesPermitidas(new ParametrosListarExtensoesPermitidasWS(
+							param.getSiglaSistema(), param.getIdentificacaoServico(), param.getIdUnidade()));
+			SeiElementsUtils.validateDocumentoWs(param.getDocumento(), extensoes, true);
 			
 			String messageBody = XMLUtils.readXMLFile(this.realPath + File.separator + "IncluirDocumentoIN.xml");
-			Attachment attachment = null;
-			
-			if (param.getDocumento().getTipo() == TipoDocumentoWS.DOCUMENTO_GERADO) {
-				messageBody = StringUtils.replace(messageBody, "PARAM_16", new String(Base64.getEncoder().encode(StringUtils.escapeHTML(param.getDocumento().getConteudo()).getBytes())));
-				messageBody = XMLUtils.deleteElement(messageBody, "ConteudoMTOM");
-				
-			} else if (param.getDocumento().getTipo() == TipoDocumentoWS.DOCUMENTO_RECEBIDO) {
-				String extensao = FilenameUtils.getExtension(param.getDocumento().getNomeArquivo());
-				if (ObjectUtils.isEmpty(extensao)) {
-					throw new SeiFaultException(400, Message.MNE00030);
-				} else {
-					RespostaListarExtensoesPermitidasWS extensoes = this
-							.listarExtensoesPermitidas(new ParametrosListarExtensoesPermitidasWS(
-									param.getSiglaSistema(), param.getIdentificacaoServico(), param.getIdUnidade()));
-					boolean contains = false;
-					for (ArquivoExtensaoWS iter : extensoes.getParametros().getItem()) {
-						if (extensao.equalsIgnoreCase(iter.getExtensao())) {
-							contains = true;
-							break;
-						}
-					}
-					if (!contains) {
-						String str = "";
-						Iterator<ArquivoExtensaoWS> iter = extensoes.getParametros().getItem().iterator();
-						while (iter.hasNext()) {
-							ArquivoExtensaoWS ae = iter.next();
-							str = str + ae.getExtensao();
-							if (iter.hasNext()) {
-								str = str + ", ";
-							}
-						}
-						throw new SeiFaultException(400, "Bad Request",
-								Message.getMessage(Message.MNE00031, str));
-					}
-				}				
-				if (!ObjectUtils.isEmpty(param.getDocumento().getConteudoMTOM())) {
-					attachment = new Attachment();
-					attachment.setFilename(param.getDocumento().getNomeArquivo());
-					attachment.setData(param.getDocumento().getConteudoMTOM());
-					attachment.setMTOM(true);					
-					messageBody = XMLUtils.deleteElement(messageBody, "Conteudo");
-					messageBody = StringUtils.replace(messageBody, "PARAM_17", XMLUtils.getElementXOP(attachment.getContentId()));
-				} else {
-					String base64Encoder = new String(Base64.getEncoder().encode(param.getDocumento().getConteudo().getBytes("ISO-8859-1")));
-					messageBody = StringUtils.replace(messageBody, "PARAM_16", base64Encoder);
-					messageBody = XMLUtils.deleteElement(messageBody, "ConteudoMTOM");
-				}
-			}
+
+			Attachment attachment = SeiElementsUtils.getAttachment(param.getDocumento());
+			String documentoIn = SeiElementsUtils.gerarDocumentoWsXML(param.getDocumento(), attachment);
 			// --
 			messageBody = StringUtils.replace(messageBody, "PARAM_1", param.getSiglaSistema());
 			messageBody = StringUtils.replace(messageBody, "PARAM_2", param.getIdentificacaoServico());
 			messageBody = StringUtils.replace(messageBody, "PARAM_3", StringUtils.toString(param.getIdUnidade()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_4", param.getDocumento().getTipo().getCodSinalizador());
-			messageBody = StringUtils.replace(messageBody, "PARAM_5", StringUtils.toString(param.getDocumento().getIdProcedimento()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_6", param.getDocumento().getProtocoloProcedimento());
-			messageBody = StringUtils.replace(messageBody, "PARAM_7", StringUtils.toString(param.getDocumento().getIdSerie()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_8", StringUtils.toString(param.getDocumento().getNumero()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_9", StringUtils.toString(param.getDocumento().getData()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_10", StringUtils.toString(param.getDocumento().getDescricao()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_11", StringUtils.toString(param.getDocumento().getIdTipoConferencia()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_12", StringUtils.toString(param.getDocumento().getObservacao()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_13", StringUtils.toString(param.getDocumento().getNomeArquivo()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_14", StringUtils.toString(param.getDocumento().getNivelAcesso().getCodSinalizador()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_15", StringUtils.toString(param.getDocumento().getIdHipoteseLegal()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_18", StringUtils.toString(param.getDocumento().getIdArquivo()));
-			messageBody = StringUtils.replace(messageBody, "PARAM_19", param.getDocumento().getSinBloqueado().getCodSinalizador());
-			// --
-			if (!ObjectUtils.isEmpty(param.getDocumento().getInteressados()) && !ObjectUtils.isEmpty(param.getDocumento().getInteressados().getInteressado())) {
-				String arrayOfInteressadoIN = Utils.readFile(this.realPath + File.separator + "elements" + File.separator + "ArrayOfInteressadoIN.xml");
-				String auxIN = "";
-				int count 	 = 0;
-				for (InteressadoWS iter : param.getDocumento().getInteressados().getInteressado()) {
-					if (count == 0) {
-						auxIN = StringUtils.replace(arrayOfInteressadoIN, "PARAM_1", StringUtils.toString(iter.getSigla()));
-						auxIN = StringUtils.replace(auxIN, "PARAM_2", StringUtils.toString(iter.getNome()));
-					} else {
-						auxIN = auxIN + "\n" + StringUtils.replace(arrayOfInteressadoIN, "PARAM_1", StringUtils.toString(iter.getSigla()));
-						auxIN = StringUtils.replace(auxIN, "PARAM_2", StringUtils.toString(iter.getNome()));
-					}
-					count++;
-				}
-				messageBody = StringUtils.replace(messageBody, "PARAM_LENGTH_1", StringUtils.toString(count));
-				messageBody = StringUtils.replace(messageBody, "PARAM_21", StringUtils.toString(auxIN));
-			} else {
-				messageBody = StringUtils.replace(messageBody, "PARAM_LENGTH_1", StringUtils.toString(null));
-				messageBody = StringUtils.replace(messageBody, "PARAM_21", StringUtils.toString(null));
-			}
-			
-			if (!ObjectUtils.isEmpty(param.getDocumento().getDestinatarios()) && !ObjectUtils.isEmpty(param.getDocumento().getDestinatarios().getDestinatario())) {
-				String arrayOfDestinatarioIN = Utils.readFile(this.realPath + File.separator + "elements" + File.separator + "ArrayOfDestinatarioIN.xml");
-				String auxIN = "";
-				int count 	 = 0;
-				for (DestinatarioWS iter : param.getDocumento().getDestinatarios().getDestinatario()) {
-					if (count == 0) {
-						auxIN = StringUtils.replace(arrayOfDestinatarioIN, "PARAM_1", StringUtils.toString(iter.getSigla()));
-						auxIN = StringUtils.replace(auxIN, "PARAM_2", StringUtils.toString(iter.getNome()));
-					} else {
-						auxIN = auxIN + "\n" + StringUtils.replace(arrayOfDestinatarioIN, "PARAM_1", StringUtils.toString(iter.getSigla()));
-						auxIN = StringUtils.replace(auxIN, "PARAM_2", StringUtils.toString(iter.getNome()));
-					}
-					count++;
-				}
-				messageBody = StringUtils.replace(messageBody, "PARAM_LENGTH_2", StringUtils.toString(count));
-				messageBody = StringUtils.replace(messageBody, "PARAM_22", StringUtils.toString(auxIN));
-			} else {
-				messageBody = StringUtils.replace(messageBody, "PARAM_LENGTH_2", StringUtils.toString(null));
-				messageBody = StringUtils.replace(messageBody, "PARAM_22", StringUtils.toString(null));
-			}
-			
-			if (!ObjectUtils.isEmpty(param.getDocumento().getRemetente())) {
-				if (!ObjectUtils.isEmpty(param.getDocumento().getRemetente().getNome())
-						|| !ObjectUtils.isEmpty(param.getDocumento().getRemetente().getSigla())) {
-					String remetenteIN = Utils.readFile(this.realPath + File.separator + "elements" + File.separator + "RemetenteIN.xml");
-					remetenteIN = StringUtils.replace(remetenteIN, "PARAM_1", StringUtils.toString(param.getDocumento().getRemetente().getSigla()));
-					remetenteIN = StringUtils.replace(remetenteIN, "PARAM_2", StringUtils.toString(param.getDocumento().getRemetente().getNome()));
-					
-					StringBuilder sb = new StringBuilder(messageBody);
-					String[] src = StringUtils.hasIndexMatch("Remetente", messageBody);
-					sb.replace(Integer.valueOf(src[0]) - 1, Integer.valueOf(src[1]) + 1, remetenteIN);
-					messageBody = sb.toString();
-				} else {
-					messageBody = StringUtils.replace(messageBody, "PARAM_20", StringUtils.toString(null));
-				}
-			} else {
-				messageBody = StringUtils.replace(messageBody, "PARAM_20", StringUtils.toString(null));
-			}
+			messageBody = StringUtils.replace(messageBody, "PARAM_4", documentoIn);
+
 			// --
 			if (ObjectUtils.isEmpty(attachment)) {
 				messageBody = SOAPUtils.call(messageBody);

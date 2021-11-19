@@ -47,7 +47,15 @@ public final class XMLStream {
 		xstream.aliasField("IdProcedimento", RetornoGeracaoProcedimentoWS.class, "idProcedimento");
 		xstream.aliasField("ProcedimentoFormatado", RetornoGeracaoProcedimentoWS.class, "procedimentoFormatado");
 		xstream.aliasField("LinkAcesso", RetornoGeracaoProcedimentoWS.class, "linkAcesso");
-		
+
+		xstream.aliasField("RetornoInclusaoDocumentos", RetornoGeracaoProcedimentoWS.class, "retornoInclusaoDocumentos");
+		xstream.alias("item xsi:type=\"ns1:RetornoInclusaoDocumento\"", RetornoInclusaoDocumentoWS.class);
+		xstream.aliasField("IdDocumento", RetornoInclusaoDocumentoWS.class, "idDocumento");
+		xstream.aliasField("DocumentoFormatado", RetornoInclusaoDocumentoWS.class, "documentoFormatado");
+		xstream.aliasField("LinkAcesso", RetornoInclusaoDocumentoWS.class, "linkAcesso");
+
+		xstream.addImplicitCollection(ArrayOfRetornoInclusaoDocumentoWS.class, "item", "item xsi:type=\"ns1:RetornoInclusaoDocumento\"", RetornoInclusaoDocumentoWS.class);
+
 		xstream.ignoreUnknownElements();
 		Envelope envelope = (Envelope) xstream.fromXML(xml);
 		return envelope;
