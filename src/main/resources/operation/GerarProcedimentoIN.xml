@@ -20,7 +20,7 @@
 				<NivelAcesso xsi:type="xsd:string">PARAM_11</NivelAcesso>
 				<IdHipoteseLegal xsi:type="xsd:string">PARAM_12</IdHipoteseLegal>
 			</Procedimento>
-			<Documentos xsi:type="sei:ArrayOfDocumento" soapenc:arrayType="sei:Documento[]"/>
+			<Documentos xsi:type="sei:ArrayOfDocumento" soapenc:arrayType="sei:Documento[PARAM_LENGTH_3]">PARAM_20</Documentos>
 			<ProcedimentosRelacionados xsi:type="sei:ArrayOfProcedimentoRelacionado" soapenc:arrayType="xsd:string[]"/>
 			<UnidadesEnvio xsi:type="sei:ArrayOfIdUnidade" soapenc:arrayType="xsd:string[]"/>
 			<SinManterAbertoUnidade xsi:type="xsd:string">PARAM_13</SinManterAbertoUnidade>
