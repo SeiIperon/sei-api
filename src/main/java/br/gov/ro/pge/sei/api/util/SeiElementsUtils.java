@@ -98,7 +98,7 @@ public class SeiElementsUtils {
         String documentoIN = Utils.readFile(Utils.getRealPath() + File.separator + "elements" + File.separator + "DocumentoIN.xml");
 
         if (documentoWS.getTipo() == TipoDocumentoWS.DOCUMENTO_GERADO) {
-            documentoIN = StringUtils.replace(documentoIN, "PARAM_16", Arrays.toString(Base64.getEncoder().encode(StringUtils.escapeHTML(documentoWS.getConteudo()).getBytes())));
+            documentoIN = StringUtils.replace(documentoIN, "PARAM_16", Base64.getEncoder().encodeToString(StringUtils.escapeHTML(documentoWS.getConteudo()).getBytes()));
             documentoIN = XMLUtils.deleteElement(documentoIN, "ConteudoMTOM");
 
         } else if (documentoWS.getTipo() == TipoDocumentoWS.DOCUMENTO_RECEBIDO) {
@@ -106,7 +106,7 @@ public class SeiElementsUtils {
                 documentoIN = XMLUtils.deleteElement(documentoIN, "Conteudo");
                 documentoIN = StringUtils.replace(documentoIN, "PARAM_17", XMLUtils.getElementXOP(attachment.getContentId()));
             } else {
-                String base64Encoder = new String(Base64.getEncoder().encode(documentoWS.getConteudo().getBytes(StandardCharsets.ISO_8859_1)));
+                String base64Encoder = Base64.getEncoder().encodeToString(documentoWS.getConteudo().getBytes(StandardCharsets.ISO_8859_1));
                 documentoIN = StringUtils.replace(documentoIN, "PARAM_16", base64Encoder);
                 documentoIN = XMLUtils.deleteElement(documentoIN, "ConteudoMTOM");
             }
