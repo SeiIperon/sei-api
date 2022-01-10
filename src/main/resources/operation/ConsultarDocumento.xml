@@ -1,0 +1,18 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:sei="Sei">
+	<soapenv:Header />
+	<soapenv:Body>
+		<sei:consultarDocumento
+			soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+			<SiglaSistema xsi:type="xsd:string">PARAM_1</SiglaSistema>
+			<IdentificacaoServico xsi:type="xsd:string">PARAM_2</IdentificacaoServico>
+			<IdUnidade xsi:type="xsd:string">PARAM_3</IdUnidade>
+			<ProtocoloDocumento xsi:type="xsd:string">PARAM_4</ProtocoloDocumento>
+			<SinRetornarAndamentoGeracao xsi:type="xsd:string">PARAM_5</SinRetornarAndamentoGeracao>
+			<SinRetornarAssinaturas xsi:type="xsd:string">PARAM_6</SinRetornarAssinaturas>
+			<SinRetornarPublicacao xsi:type="xsd:string">PARAM_7</SinRetornarPublicacao>
+			<SinRetornarCampos xsi:type="xsd:string">PARAM_8</SinRetornarCampos>
+		</sei:consultarDocumento>
+	</soapenv:Body>
+</soapenv:Envelope>

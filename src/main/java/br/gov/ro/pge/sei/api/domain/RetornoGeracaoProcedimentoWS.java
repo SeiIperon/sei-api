@@ -14,4 +14,5 @@ public class RetornoGeracaoProcedimentoWS {
 	private Long idProcedimento;
 	private String procedimentoFormatado;
 	private String linkAcesso;
+	private ArrayOfRetornoInclusaoDocumentoWS retornoInclusaoDocumentos;
 }

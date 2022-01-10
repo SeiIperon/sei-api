@@ -5,13 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArrayOfCampoWS {
+public class ArrayOfDocumentoWS {
 
-	private List<CampoWS> item;
+    @NotNull
+    private List<DocumentoWS> documento;
 }

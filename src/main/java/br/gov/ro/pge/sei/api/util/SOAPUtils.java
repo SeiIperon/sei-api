@@ -8,12 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.w3c.dom.Document;
 
 import javax.activation.DataHandler;
 import javax.annotation.PostConstruct;
 import javax.xml.soap.*;
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class SOAPUtils {
@@ -30,10 +33,14 @@ public class SOAPUtils {
 	}
 	
 	public static String call(String content) throws SeiFaultException {
-		return call(content, null);
+		return call(content, new ArrayList<>());
 	}
 
 	public static String call(String messageBody, Attachment attachment) throws SeiFaultException {
+		return call(messageBody, List.of(attachment));
+	}
+
+	public static String call(String messageBody, List<Attachment> attachmentList) throws SeiFaultException {
 		if (ObjectUtils.isEmpty(messageBody)) {
 			throw new SeiFaultException(500, "O corpo da mensagem é obrigatório.", Message.MNE00001);
 		}
@@ -50,12 +57,16 @@ public class SOAPUtils {
 	        
 			MessageFactory messageFactory = MessageFactory.newInstance();
 			SOAPMessage message = messageFactory.createMessage(headers, (new ByteArrayInputStream(messageBody.getBytes("UTF-8"))));
-	        
-			if (!ObjectUtils.isEmpty(attachment) && attachment.isMTOM()) {
-				AttachmentPart attachmentPart = message.createAttachmentPart();
-				attachmentPart.setContentId("<" + attachment.getContentId() + ">");
-				attachmentPart.setDataHandler(new DataHandler(new InputStreamDataSource(attachment.getFilename(), attachment.getData())));
-				message.addAttachmentPart(attachmentPart);
+
+			if (!CollectionUtils.isEmpty(attachmentList)) {
+				for (Attachment attachment : attachmentList) {
+					if (!ObjectUtils.isEmpty(attachment) && attachment.isMTOM()) {
+						AttachmentPart attachmentPart = message.createAttachmentPart();
+						attachmentPart.setContentId("<" + attachment.getContentId() + ">");
+						attachmentPart.setDataHandler(new DataHandler(new InputStreamDataSource(attachment.getFilename(), attachment.getData())));
+						message.addAttachmentPart(attachmentPart);
+					}
+				}
 			}
 	        SOAPMessage response = connection.call(message, SOAPUtils.ENDPOINT);
 	        Document document = response.getSOAPBody().getOwnerDocument();

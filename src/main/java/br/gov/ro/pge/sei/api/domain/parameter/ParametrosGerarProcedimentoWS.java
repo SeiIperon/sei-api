@@ -1,5 +1,6 @@
 package br.gov.ro.pge.sei.api.domain.parameter;
 
+import br.gov.ro.pge.sei.api.domain.ArrayOfDocumentoWS;
 import br.gov.ro.pge.sei.api.domain.SinDiasUteisRetornoProgramadoWS;
 import br.gov.ro.pge.sei.api.domain.SinEnviarEmailNotificacaoWS;
 import br.gov.ro.pge.sei.api.domain.SinManterAbertoUnidadeWS;
@@ -50,6 +51,9 @@ public class ParametrosGerarProcedimentoWS {
 
 	@Getter @Setter
 	private String textoMarcador;
+
+	@Getter @Setter
+	private ArrayOfDocumentoWS documentos;
 
 	/**
 	 * @return the sinManterAbertoUnidade

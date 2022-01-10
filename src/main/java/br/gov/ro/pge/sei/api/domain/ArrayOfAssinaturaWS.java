@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package br.gov.ro.pge.sei.api.domain;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArrayOfCampoWS {
+public class ArrayOfAssinaturaWS {
 
-	private List<CampoWS> item;
+	private List<AssinaturaWS> item;
 }

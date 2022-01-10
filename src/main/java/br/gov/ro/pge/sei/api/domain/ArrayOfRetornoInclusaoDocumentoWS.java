@@ -11,7 +11,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArrayOfCampoWS {
+public class ArrayOfRetornoInclusaoDocumentoWS {
 
-	private List<CampoWS> item;
+	private List<RetornoInclusaoDocumentoWS> item;
+
 }
