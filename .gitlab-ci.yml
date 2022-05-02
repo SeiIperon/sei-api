@@ -111,6 +111,7 @@ gitlab-release:
         --set environment=$ENVIRONMENT
         --set global.hostName=$HOSTNAME
         --set javaOpts=$JAVA_OPTS
+        --set br.gov.ro.pge.sei.api.ws.url=$SEI_URL
 
 deploy_homolog:
   <<: *deploy_definition

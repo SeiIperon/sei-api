@@ -106,8 +106,7 @@ public class SeiElementsUtils {
                 documentoIN = XMLUtils.deleteElement(documentoIN, "Conteudo");
                 documentoIN = StringUtils.replace(documentoIN, "PARAM_17", XMLUtils.getElementXOP(attachment.getContentId()));
             } else {
-                String base64Encoder = Base64.getEncoder().encodeToString(documentoWS.getConteudo().getBytes(StandardCharsets.ISO_8859_1));
-                documentoIN = StringUtils.replace(documentoIN, "PARAM_16", base64Encoder);
+                documentoIN = StringUtils.replace(documentoIN, "PARAM_16", documentoWS.getConteudo()); // deve ser base64 encoded nos clientes
                 documentoIN = XMLUtils.deleteElement(documentoIN, "ConteudoMTOM");
             }
         }

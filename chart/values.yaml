@@ -9,4 +9,13 @@ imageTag: latest
 javaOpts: "-Xmx4000m"
 
 global:
-   hostName: 
+   hostName:
+
+br:
+   gov:
+      ro:
+         pge:
+            sei:
+               api:
+                  ws:
+                     url:

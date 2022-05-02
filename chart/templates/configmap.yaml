@@ -6,3 +6,4 @@ data:
   "spring.profiles.active": {{.Values.environment | quote}}
   "server.port": {{.Values.serverPort | quote}}
   "JAVA_OPTS": {{.Values.javaOpts | quote}}
+  "br.gov.ro.pge.sei.api.ws.url": {{.Values.br.gov.ro.pge.sei.api.ws.url | quote }}
