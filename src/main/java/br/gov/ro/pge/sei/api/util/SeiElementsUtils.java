@@ -98,7 +98,7 @@ public class SeiElementsUtils {
         String documentoIN = Utils.readFile(Utils.getRealPath() + File.separator + "elements" + File.separator + "DocumentoIN.xml");
 
         if (documentoWS.getTipo() == TipoDocumentoWS.DOCUMENTO_GERADO) {
-            documentoIN = StringUtils.replace(documentoIN, "PARAM_16", Base64.getEncoder().encodeToString(StringUtils.escapeHTML(documentoWS.getConteudo()).getBytes()));
+            documentoIN = StringUtils.replace(documentoIN, "PARAM_16", StringUtils.escapeHTML(documentoWS.getConteudo()));
             documentoIN = XMLUtils.deleteElement(documentoIN, "ConteudoMTOM");
 
         } else if (documentoWS.getTipo() == TipoDocumentoWS.DOCUMENTO_RECEBIDO) {
