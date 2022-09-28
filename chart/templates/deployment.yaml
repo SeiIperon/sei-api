@@ -22,3 +22,7 @@ spec:
         envFrom:
          - configMapRef:
             name: "{{ .Release.Name }}-configmap-{{ .Release.Revision }}"
+    {{ if eq .Values.environment "prod" }}
+      imagePullSecrets:
+      - name: pge-registry
+    {{ end }}
