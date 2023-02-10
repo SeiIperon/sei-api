@@ -31,7 +31,7 @@ unit-test:
         
 app-build:
   stage: build
-  image: openjdk:11
+  image: adoptopenjdk/openjdk11-openj9
   tags:
     - docker-runner
   script:
@@ -142,7 +142,7 @@ docker_clean:
 
 sonarqube-check:
   stage: analyze
-  image: openjdk:11
+  image: adoptopenjdk/openjdk11-openj9
   tags:
     - docker-runner
   variables:
