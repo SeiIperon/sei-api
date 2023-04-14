@@ -35,6 +35,12 @@ public class SeiController {
         return ResponseEntity.ok(out);
     }
 
+    @PostMapping(value = "/enviar-processo", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseEnviarProcessoWS> enviarProcesso(@RequestBody(required = false) ParametrosEnviarProcessoWS param) throws SeiFaultException {
+        ResponseEnviarProcessoWS out = this.seiService.enviarProcesso(param);
+        return ResponseEntity.ok(out);
+    }
+
     @PostMapping(value = "/incluir-documento", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RespostaIncluirDocumentoWS> incluirDocumento(@RequestBody(required = false) ParametrosIncluirDocumentoWS param) throws SeiFaultException {
         RespostaIncluirDocumentoWS out = this.seiService.incluirDocumento(param);
