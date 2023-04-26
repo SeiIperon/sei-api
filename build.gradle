@@ -21,7 +21,7 @@ compileJava.options.encoding = 'UTF-8'
 
 docker {
     springBootApplication {
-        baseImage = 'openjdk:11'
+        baseImage = 'adoptopenjdk/openjdk11-openj9'
         maintainer = 'PGE-RO "suporte@pge.ro.gov.br"'
         ports = [8080]
     }
